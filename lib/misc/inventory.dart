@@ -4,72 +4,43 @@ class Inventory {
   static final Inventory instance = Inventory._();
   Inventory._();
 
-  final List<InvItem> _tools = List.empty(growable: true);
-  final List<InvItem> _weapons = List.empty(growable: true);
-  final List<InvItem> _food = List.empty(growable: true);
+  final List<InvItem> _inventory = List.empty(growable: true);
 
-  
-
-  get inventoryTools => _tools;
-  get inventoryWeapons => _weapons;
-  get inventoryFood => _food;
-
-  int _temp = -1;
+  get inventory => _inventory;
 
   void addItem(InvItem item) {
-    switch (item.type) {
-      case 0:
-        _tools.add(item);
-        break;
-      case 1:
-        _weapons.add(item);
-        break;
-      case 2:
-        _food.add(item);
-        break;
-    }
+    _inventory.add(item);
   }
 
-  void removeItem(InvItem item) {
-    switch (item.type) {
-      case 0:
-        _tools.remove(item);
-        break;
-      case 1:
-        _weapons.remove(item);
-        break;
-      case 2:
-        _food.remove(item);
-        break;
-    }
+  void remove(InvItem item) {
+    _inventory.remove(item);
   }
 
-  void useItem(InvItem item) {
-    switch (item.type) {
-      case 0:
-        _temp = _tools.indexOf(item);
-        if (_temp == -1) break;
-        _tools[_temp].useItem();
-        rotFood();
-        break;
-      case 1:
-        _temp = _weapons.indexOf(item);
-        if (_temp == -1) break;
-        _weapons[_temp].useItem();
-        rotFood();
-        break;
-      case 2:
-        _temp = _food.indexOf(item);
-        if (_temp == -1) break;
-        _food[_temp].useItem();
-        rotFood();
-        break;
+  String removeAtIndex(int index) {
+    final String message = 'You threw away your ${_inventory[index].name}.';
+    _inventory.removeAt(index);
+    return message;
+  }
+
+  String useItem(int index) {
+    if (_inventory[index].isBroken()) return 'It\'s no use.';
+    _inventory[index].use();
+    rotFood();
+    if (_inventory[index] is Food) {
+      final String message = _inventory[index].useMessage();
+      removeAtIndex(index);
+      return message;
     }
+    return _inventory[index].useMessage() +
+        (_inventory[index].isBroken() ? ' and broke it.' : '.');
   }
 
   void rotFood() {
-    for (InvItem item in _food) {
-      item.useItem();
+    for (dynamic item in inventory) {
+      if (item is Food) {
+        item.rot();
+        
+      }
     }
   }
 }
