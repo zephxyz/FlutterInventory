@@ -1,6 +1,5 @@
 import 'dart:math';
 
-
 class InvItem {
   String? _name;
 
@@ -14,7 +13,7 @@ class InvItem {
     return '';
   }
 
-  bool isBroken() {
+  bool isUnusable() {
     return false;
   }
 
@@ -101,11 +100,6 @@ class Weapon extends InvItem {
   double? _durabilityCostPerUse;
   double? _speed;
 
-  get durability => _durability;
-  get damage => _damage;
-  get speed => _speed;
-  get durabilityCostPerUse => _durabilityCostPerUse;
-
   Weapon(this._durability) : super();
 
   @override
@@ -114,23 +108,28 @@ class Weapon extends InvItem {
   }
 
   @override
-  bool isBroken() {
+  String toString() {
+    return '$_name\nDamage: ~$_damage\nSpeed: $_speed\nDurability: $_durability%\nUse: -$_durabilityCostPerUse% durability';
+  }
+
+  @override
+  bool isUnusable() {
     return _durability <= 0;
   }
 
-  void setDamage(value) {
+  void _setDamage(value) {
     _damage = value;
   }
 
-  void setDurabilityCostPerUse(double value) {
+  void _setDurabilityCostPerUse(double value) {
     _durabilityCostPerUse = value;
   }
 
-  void setSpeed(double value) {
+  void _setSpeed(double value) {
     _speed = value;
   }
 
-  double getDamage(ItemMaterial material, double k) {
+  double _getDamage(ItemMaterial material, double k) {
     switch (material) {
       case ItemMaterial.wood:
         return 2.5 * k;
@@ -157,7 +156,7 @@ class Weapon extends InvItem {
     }
   }
 
-  double getSpeed(ItemMaterial material, double k) {
+  double _getSpeed(ItemMaterial material, double k) {
     switch (material) {
       case ItemMaterial.wood:
         return 30 * k;
@@ -184,7 +183,7 @@ class Weapon extends InvItem {
     }
   }
 
-  double getDurabilityCostPerUse(ItemMaterial material, double k) {
+  double _getDurabilityCostPerUse(ItemMaterial material, double k) {
     switch (material) {
       case ItemMaterial.wood:
         return 10 * k;
@@ -223,9 +222,9 @@ class Sword extends Weapon {
 
   Sword(double durability, this._material) : super(durability) {
     _setName("${itemMaterialToString(_material)} Sword");
-    setDamage(getDamage(_material, 1));
-    setSpeed(getSpeed(_material, 1));
-    setDurabilityCostPerUse(getDurabilityCostPerUse(_material, 1));
+    _setDamage(_getDamage(_material, 1));
+    _setSpeed(_getSpeed(_material, 1));
+    _setDurabilityCostPerUse(_getDurabilityCostPerUse(_material, 1));
   }
 }
 
@@ -234,9 +233,9 @@ class Axe extends Weapon {
 
   Axe(double durability, this._material) : super(durability) {
     _setName("${itemMaterialToString(_material)} Axe");
-    setDamage(getDamage(_material, 1.3));
-    setSpeed(getSpeed(_material, 0.7));
-    setDurabilityCostPerUse(getDurabilityCostPerUse(_material, 0.9));
+    _setDamage(_getDamage(_material, 1.3));
+    _setSpeed(_getSpeed(_material, 0.7));
+    _setDurabilityCostPerUse(_getDurabilityCostPerUse(_material, 0.9));
   }
 }
 
@@ -245,9 +244,9 @@ class BattleAxe extends Weapon {
 
   BattleAxe(double durability, this._material) : super(durability) {
     _setName("${itemMaterialToString(_material)} Battleaxe");
-    setDamage(getDamage(_material, 1.5));
-    setSpeed(getSpeed(_material, 0.5));
-    setDurabilityCostPerUse(getDurabilityCostPerUse(_material, 0.8));
+    _setDamage(_getDamage(_material, 1.5));
+    _setSpeed(_getSpeed(_material, 0.5));
+    _setDurabilityCostPerUse(_getDurabilityCostPerUse(_material, 0.8));
   }
 }
 
@@ -256,9 +255,9 @@ class Mace extends Weapon {
 
   Mace(double durability, this._material) : super(durability) {
     _setName("${itemMaterialToString(_material)} Mace");
-    setDamage(getDamage(_material, 1.4));
-    setSpeed(getSpeed(_material, 0.4));
-    setDurabilityCostPerUse(getDurabilityCostPerUse(_material, 0.6));
+    _setDamage(_getDamage(_material, 1.4));
+    _setSpeed(_getSpeed(_material, 0.4));
+    _setDurabilityCostPerUse(_getDurabilityCostPerUse(_material, 0.6));
   }
 }
 
@@ -267,9 +266,9 @@ class Dagger extends Weapon {
 
   Dagger(double durability, this._material) : super(durability) {
     _setName("${itemMaterialToString(_material)} Dagger");
-    setDamage(getDamage(_material, 0.8));
-    setSpeed(getSpeed(_material, 1.3));
-    setDurabilityCostPerUse(getDurabilityCostPerUse(_material, 1.3));
+    _setDamage(_getDamage(_material, 0.8));
+    _setSpeed(_getSpeed(_material, 1.3));
+    _setDurabilityCostPerUse(_getDurabilityCostPerUse(_material, 1.3));
   }
 }
 
@@ -278,9 +277,9 @@ class Spear extends Weapon {
 
   Spear(double durability, this._material) : super(durability) {
     _setName("${itemMaterialToString(_material)} Spear");
-    setDamage(getDamage(_material, 1));
-    setSpeed(getSpeed(_material, 1.2));
-    setDurabilityCostPerUse(getDurabilityCostPerUse(_material, 1.3));
+    _setDamage(_getDamage(_material, 1));
+    _setSpeed(_getSpeed(_material, 1.2));
+    _setDurabilityCostPerUse(_getDurabilityCostPerUse(_material, 1.3));
   }
 }
 
@@ -289,9 +288,9 @@ class Katana extends Weapon {
 
   Katana(double durability, this._material) : super(durability) {
     _setName("${itemMaterialToString(_material)} Katana");
-    setDamage(getDamage(_material, 0.9));
-    setSpeed(getSpeed(_material, 1.3));
-    setDurabilityCostPerUse(getDurabilityCostPerUse(_material, 1.2));
+    _setDamage(_getDamage(_material, 0.9));
+    _setSpeed(_getSpeed(_material, 1.3));
+    _setDurabilityCostPerUse(_getDurabilityCostPerUse(_material, 1.2));
   }
 }
 
@@ -302,29 +301,30 @@ class Tool extends InvItem {
 
   Tool(this._durability) : super();
 
-  get durability => _durability;
-  get efficiency => _efficiency;
-  get durabilityCostPerUse => _durabilityCostPerUse;
-
   @override
   String useMessage() {
     return "You used your $_name and lost $_durabilityCostPerUse% durability";
   }
 
   @override
-  bool isBroken() {
+  bool isUnusable() {
     return _durability <= 0;
   }
 
-  void setEfficiency(double value) {
+  @override
+  String toString() {
+    return '$_name\nEfficiency: ${_efficiency! * 100}%\nDurability: $_durability%\nUse: -$_durabilityCostPerUse% durability';
+  }
+
+  void _setEfficiency(double value) {
     _efficiency = value;
   }
 
-  void setDurabilityCostPerUse(double value) {
+  void _setDurabilityCostPerUse(double value) {
     _durabilityCostPerUse = value;
   }
 
-  double getDurabilityCostPerUse(ItemMaterial material, double k) {
+  double _getDurabilityCostPerUse(ItemMaterial material, double k) {
     switch (material) {
       case ItemMaterial.wood:
         return 10 * k;
@@ -351,7 +351,7 @@ class Tool extends InvItem {
     }
   }
 
-  double getEfficiency(ItemMaterial material, double k) {
+  double _getEfficiency(ItemMaterial material, double k) {
     switch (material) {
       case ItemMaterial.wood:
         return 0.5 * k;
@@ -390,8 +390,8 @@ class Shovel extends Tool {
 
   Shovel(double durability, this._material) : super(durability) {
     _setName("${itemMaterialToString(_material)} Shovel");
-    setEfficiency(getEfficiency(_material, 0.8));
-    setDurabilityCostPerUse(getDurabilityCostPerUse(_material, 0.8));
+    _setEfficiency(_getEfficiency(_material, 0.8));
+    _setDurabilityCostPerUse(_getDurabilityCostPerUse(_material, 0.8));
   }
 }
 
@@ -400,8 +400,8 @@ class LumberAxe extends Tool {
 
   LumberAxe(double durability, this._material) : super(durability) {
     _setName("${itemMaterialToString(_material)} Lumberaxe");
-    setEfficiency(getEfficiency(_material, 1.2));
-    setDurabilityCostPerUse(getDurabilityCostPerUse(_material, 1.2));
+    _setEfficiency(_getEfficiency(_material, 1.2));
+    _setDurabilityCostPerUse(_getDurabilityCostPerUse(_material, 1.2));
   }
 }
 
@@ -410,8 +410,8 @@ class Pickaxe extends Tool {
 
   Pickaxe(double durability, this._material) : super(durability) {
     _setName("${itemMaterialToString(_material)} Pickaxe");
-    setEfficiency(getEfficiency(_material, 1.1));
-    setDurabilityCostPerUse(getDurabilityCostPerUse(_material, 1.1));
+    _setEfficiency(_getEfficiency(_material, 1.1));
+    _setDurabilityCostPerUse(_getDurabilityCostPerUse(_material, 1.1));
   }
 }
 
@@ -420,8 +420,8 @@ class Hammer extends Tool {
 
   Hammer(double durability, this._material) : super(durability) {
     _setName("${itemMaterialToString(_material)} Hammer");
-    setEfficiency(getEfficiency(_material, 1.5));
-    setDurabilityCostPerUse(getDurabilityCostPerUse(_material, 1.5));
+    _setEfficiency(_getEfficiency(_material, 1.5));
+    _setDurabilityCostPerUse(_getDurabilityCostPerUse(_material, 1.5));
   }
 }
 
@@ -430,8 +430,8 @@ class Shears extends Tool {
 
   Shears(double durability, this._material) : super(durability) {
     _setName("${itemMaterialToString(_material)} Shears");
-    setEfficiency(getEfficiency(_material, 0.3));
-    setDurabilityCostPerUse(getDurabilityCostPerUse(_material, 0.2));
+    _setEfficiency(_getEfficiency(_material, 0.3));
+    _setDurabilityCostPerUse(_getDurabilityCostPerUse(_material, 0.2));
   }
 }
 
@@ -439,10 +439,6 @@ class Food extends InvItem {
   double? _rotRate;
   double _rotState = 0;
   double? _hungerRestored;
-
-  get rotRate => _rotRate;
-  get rotState => _rotState;
-  get hungerRestored => _hungerRestored;
 
   Food() : super();
 
@@ -452,15 +448,20 @@ class Food extends InvItem {
   }
 
   @override
-  bool isBroken() {
-    return rotState >= 100;
+  bool isUnusable() {
+    return _rotState >= 100;
   }
 
-  void setRotRate(double value) {
+  @override
+  String toString() {
+    return '$_name\nRestores: $_hungerRestored hunger\nRot state: $_rotState%\nRot rate: $_rotRate%/use';
+  }
+
+  void _setRotRate(double value) {
     _rotRate = value;
   }
 
-  void setHungerRestored(double value) {
+  void _setHungerRestored(double value) {
     _hungerRestored = value;
   }
 
@@ -481,64 +482,64 @@ class Food extends InvItem {
 class Apple extends Food {
   Apple() : super() {
     _setName('Apple');
-    setRotRate(5);
-    setHungerRestored(10);
+    _setRotRate(5);
+    _setHungerRestored(10);
   }
 }
 
 class Banana extends Food {
   Banana() : super() {
     _setName('Banana');
-    setRotRate(2.5);
-    setHungerRestored(10);
+    _setRotRate(2.5);
+    _setHungerRestored(10);
   }
 }
 
 class Berry extends Food {
   Berry() : super() {
     _setName('Berry');
-    setRotRate(2);
-    setHungerRestored(5);
+    _setRotRate(2);
+    _setHungerRestored(5);
   }
 }
 
 class Steak extends Food {
   Steak() : super() {
     _setName('Steak');
-    setRotRate(1);
-    setHungerRestored(25);
+    _setRotRate(1);
+    _setHungerRestored(25);
   }
 }
 
 class Pineapple extends Food {
   Pineapple() : super() {
     _setName('Pineapple');
-    setRotRate(2);
-    setHungerRestored(20);
+    _setRotRate(2);
+    _setHungerRestored(20);
   }
 }
 
 class Melon extends Food {
   Melon() : super() {
     _setName('Melon');
-    setRotRate(5);
-    setHungerRestored(25);
+    _setRotRate(5);
+    _setHungerRestored(25);
   }
 }
 
 class Pizza extends Food {
   Pizza() : super() {
     _setName('Pizza');
-    setRotRate(3);
-    setHungerRestored(30);
+    _setRotRate(3);
+    _setHungerRestored(30);
   }
 }
 
 class Potato extends Food {
   Potato() : super() {
     _setName('Potato');
-    setRotRate(3);
-    setHungerRestored(1);
+    _setRotRate(3);
+    _setHungerRestored(1);
   }
 }
 
@@ -546,10 +547,6 @@ class Armour extends InvItem {
   double? _damageReduction;
   double _durability;
   double? _durabilityCostPerUse;
-
-  get damageReduction => _damageReduction;
-  get durability => _durability;
-  get durabilityCostPerUse => _durabilityCostPerUse;
 
   Armour(this._durability) : super();
 
@@ -559,19 +556,24 @@ class Armour extends InvItem {
   }
 
   @override
-  bool isBroken() {
+  bool isUnusable() {
     return _durability <= 0;
   }
 
-  void setDamageReduction(double value) {
+  @override
+  String toString() {
+    return '$_name\nDamage reduction: ${_damageReduction! * 100}%\nDurability: $_durability%\nUse: -$_durabilityCostPerUse% durability';
+  }
+
+  void _setDamageReduction(double value) {
     _damageReduction = value;
   }
 
-  void setDurabilityCostPerUse(double value) {
+  void _setDurabilityCostPerUse(double value) {
     _durabilityCostPerUse = value;
   }
 
-  double getDamageReduction(ItemMaterial material, double k) {
+  double _getDamageReduction(ItemMaterial material, double k) {
     switch (material) {
       case ItemMaterial.wood:
         return 0.05 * k;
@@ -598,7 +600,7 @@ class Armour extends InvItem {
     }
   }
 
-  double getDurabilityCostPerUse(ItemMaterial material) {
+  double _getDurabilityCostPerUse(ItemMaterial material) {
     switch (material) {
       case ItemMaterial.wood:
         return 5;
@@ -637,8 +639,8 @@ class Helmet extends Armour {
 
   Helmet(double durability, this._material) : super(durability) {
     _setName("${itemMaterialToString(_material)} Helmet");
-    setDamageReduction(getDamageReduction(_material, 0.6));
-    setDurabilityCostPerUse(getDurabilityCostPerUse(_material));
+    _setDamageReduction(_getDamageReduction(_material, 0.6));
+    _setDurabilityCostPerUse(_getDurabilityCostPerUse(_material));
   }
 }
 
@@ -647,8 +649,8 @@ class Chestplate extends Armour {
 
   Chestplate(double durability, this._material) : super(durability) {
     _setName("${itemMaterialToString(_material)} Chestplate");
-    setDamageReduction(getDamageReduction(_material, 1));
-    setDurabilityCostPerUse(getDurabilityCostPerUse(_material));
+    _setDamageReduction(_getDamageReduction(_material, 1));
+    _setDurabilityCostPerUse(_getDurabilityCostPerUse(_material));
   }
 }
 
@@ -657,8 +659,8 @@ class Leggings extends Armour {
 
   Leggings(double durability, this._material) : super(durability) {
     _setName("${itemMaterialToString(_material)} Leggings");
-    setDamageReduction(getDamageReduction(_material, 1));
-    setDurabilityCostPerUse(getDurabilityCostPerUse(_material));
+    _setDamageReduction(_getDamageReduction(_material, 1));
+    _setDurabilityCostPerUse(_getDurabilityCostPerUse(_material));
   }
 }
 
@@ -667,8 +669,8 @@ class Shoes extends Armour {
 
   Shoes(double durability, this._material) : super(durability) {
     _setName("${itemMaterialToString(_material)} Shoes");
-    setDamageReduction(getDamageReduction(_material, 0.4));
-    setDurabilityCostPerUse(getDurabilityCostPerUse(_material));
+    _setDamageReduction(_getDamageReduction(_material, 0.4));
+    _setDurabilityCostPerUse(_getDurabilityCostPerUse(_material));
   }
 }
 

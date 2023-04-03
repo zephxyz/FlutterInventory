@@ -5,10 +5,10 @@ class PopupDialog extends StatefulWidget {
   const PopupDialog({super.key});
 
   @override
-  _PopupDialogState createState() => _PopupDialogState();
+  PopupDialogState createState() => PopupDialogState();
 }
 
-class _PopupDialogState extends State<PopupDialog> {
+class PopupDialogState extends State<PopupDialog> {
   final _controller = TextEditingController();
   final _formKey = GlobalKey<FormState>();
   String type = 'Tool';

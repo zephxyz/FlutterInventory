@@ -156,18 +156,7 @@ class _InventoryPageState extends State<InventoryPage> {
     }
   }
 
-  String getDescription(InvItem item) {
-    if (item is Weapon) {
-      return '${item.name}\nDamage: ~${item.damage}\nSpeed: ${item.speed}\nDurability: ${item.durability}%\nUse: -${item.durabilityCostPerUse}% durability';
-    } else if (item is Tool) {
-      return '${item.name}\nEfficiency: ${item.efficiency * 100}%\nDurability: ${item.durability}%\nUse: -${item.durabilityCostPerUse}% durability';
-    } else if (item is Food) {
-      return '${item.name}\nRestores: ${item.hungerRestored} hunger\nRot state: ${item.rotState}%\nRot rate: ${item.rotRate}%/use';
-    } else if (item is Armour) {
-      return '${item.name}\nDamage reduction: ${item.damageReduction * 100}%\nDurability: ${item.durability}%\nUse: -${item.durabilityCostPerUse}% durability';
-    }
-    return '';
-  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -190,7 +179,7 @@ class _InventoryPageState extends State<InventoryPage> {
                   itemBuilder: (BuildContext context, int index) {
                     return ListTile(
                       title: Text(
-                        getDescription(inventory[index]),
+                        inventory[index].toString(),
                         textAlign: TextAlign.center,
                       ),
                       onTap: () => use(index),

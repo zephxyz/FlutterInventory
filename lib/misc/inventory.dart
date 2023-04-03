@@ -23,7 +23,7 @@ class Inventory {
   }
 
   String useItem(int index) {
-    if (_inventory[index].isBroken()) return 'It\'s no use.';
+    if (_inventory[index].isUnusable()) return 'It\'s no use.';
     _inventory[index].use();
     rotFood();
     if (_inventory[index] is Food) {
@@ -32,14 +32,13 @@ class Inventory {
       return message;
     }
     return _inventory[index].useMessage() +
-        (_inventory[index].isBroken() ? ' and broke it.' : '.');
+        (_inventory[index].isUnusable() ? ' and broke it.' : '.');
   }
 
   void rotFood() {
     for (dynamic item in inventory) {
       if (item is Food) {
         item.rot();
-        
       }
     }
   }
